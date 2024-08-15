@@ -14,7 +14,7 @@ public class Splash : MonoBehaviour
 
 		if(timer > time)
 		{
-			GetComponent<Fader>().FadeTo("Menu");
+			GetComponent<Fader>().FadeTo("Main");
 		}
 	}
 }

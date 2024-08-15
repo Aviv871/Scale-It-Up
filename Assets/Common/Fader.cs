@@ -2,11 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Fader : MonoBehaviour
 {
     [SerializeField] private Image[] images = null;
-    [SerializeField] private Text[] texts = null;
+    [SerializeField] private TextMeshProUGUI[] texts = null;
     [SerializeField] private AudioSource music;
     [SerializeField] private float speed = 1.0f;
 
@@ -47,12 +48,12 @@ public class Fader : MonoBehaviour
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, a);
             }
-            foreach (Text text in texts)
+            foreach (TextMeshProUGUI text in texts)
             {
                 text.color = new Color(text.color.r, text.color.g, text.color.b, a);
             }
 
-            a -= (Time.deltaTime * speed);
+            a -= Time.deltaTime * speed;
             yield return 0;
         }
 
@@ -65,7 +66,7 @@ public class Fader : MonoBehaviour
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
-        foreach (Text text in texts)
+        foreach (TextMeshProUGUI text in texts)
         {
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
         }
@@ -78,11 +79,11 @@ public class Fader : MonoBehaviour
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, a);
             }
-            foreach (Text text in texts)
+            foreach (TextMeshProUGUI text in texts)
             {
                 text.color = new Color(text.color.r, text.color.g, text.color.b, a);
             }
-            a += (Time.deltaTime * speed);
+            a += Time.deltaTime * speed;
             yield return 0;
         }
     }
