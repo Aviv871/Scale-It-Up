@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,12 +12,15 @@ public class TetrisBoard : MonoBehaviour
     [SerializeField] private SpriteRenderer gridSprite;
     [SerializeField] private AudioSource lineCleardSound;
     [SerializeField] private AudioSource defetedSound;
+    [SerializeField] private TextMeshProUGUI scoreText;
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public int boardSizeMaxX = 14;
     public int boardSizeMinX = 6;
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
     public bool gameStarted = false;
+    public int score = 0;
+    public int level = 1;
 
     private TetrominoData nextPeiceData;
 
@@ -42,6 +46,7 @@ public class TetrisBoard : MonoBehaviour
 
     public void StartGame()
     {
+        score = 0;
         chooseNextPeice(false);
         SpawnPiece();
         gameStarted = true;
@@ -66,6 +71,26 @@ public class TetrisBoard : MonoBehaviour
         {
             boardSize.x -= 2;
             gridSprite.size = new Vector2(gridSprite.size.x - 2, gridSprite.size.y);
+            ClearLines();
+        }
+    }
+
+    private void AdvanceLevel()
+    {
+        if (score > 500 && level == 1)
+        {
+            level = 2;
+            activePiece.stepDelay -= activePiece.stepDelaySubtractionPerLevel;
+        }
+        if (score > 1000 && level == 2)
+        {
+            level = 3;
+            activePiece.stepDelay -= activePiece.stepDelaySubtractionPerLevel;
+        }
+        if (score > 1500 && level == 3)
+        {
+            level = 4;
+            activePiece.stepDelay -= activePiece.stepDelaySubtractionPerLevel;
         }
     }
 
@@ -80,13 +105,26 @@ public class TetrisBoard : MonoBehaviour
         int firstColumn = -lastColumn;
         lastColumn -= 1; // 0-indexed
 
-        for (int i = boardSize.y / 2; i >= -(boardSize.y / 2); i--)
+        // for (int i = boardSize.y / 2; i >= -(boardSize.y / 2); i--)
+        // {
+        //     if (tilemap.HasTile(new Vector3Int(lastColumn, i, 0)) || tilemap.HasTile(new Vector3Int(firstColumn, i, 0)))
+        //     {
+        //         return false;
+        //     }
+        // }
+        // for (int j = 0; j < activePiece.cells.Length; j++)
+        // {
+        //     Vector3Int tilePosition = activePiece.position + activePiece.cells[j];
+        //     if (tilePosition.x == lastColumn || tilePosition.x == firstColumn)
+        //     {
+        //         return false;
+        //     }
+        // }
+        if (activePiece.IsInColumn(lastColumn) || activePiece.IsInColumn(firstColumn))
         {
-            if (tilemap.HasTile(new Vector3Int(lastColumn, i, 0)) || tilemap.HasTile(new Vector3Int(firstColumn, i, 0)))
-            {
-                return false;
-            }
+            return false;
         }
+
 
         return boardSize.x > boardSizeMinX;
     }
@@ -179,7 +217,7 @@ public class TetrisBoard : MonoBehaviour
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
-        bool linesCleared = false;
+        int linesCleared = 0;
 
         // Clear from bottom to top
         while (row < bounds.yMax)
@@ -189,7 +227,7 @@ public class TetrisBoard : MonoBehaviour
             if (IsLineFull(row))
             {
                 LineClear(row);
-                linesCleared = true;
+                linesCleared += 1;
             }
             else
             {
@@ -197,9 +235,26 @@ public class TetrisBoard : MonoBehaviour
             }
         }
 
-        if (linesCleared)
+        if (linesCleared > 0)
         {
             lineCleardSound.Play();
+            switch (linesCleared)
+            {
+                case 1:
+                    score += 40 * level;
+                    break;
+                case 2:
+                    score += 100 * level;
+                    break;
+                case 3:
+                    score += 300 * level;
+                    break;
+                case 4:
+                    score += 1200 * level;
+                    break;
+            }
+            scoreText.text = score.ToString();
+            AdvanceLevel();
         }
     }
 
@@ -225,6 +280,11 @@ public class TetrisBoard : MonoBehaviour
     {
         RectInt bounds = Bounds;
 
+        if (activePiece.IsInRow(row) && !activePiece.isLocked)
+        {
+            activePiece.Lock(true);
+        }
+
         // Clear all tiles in the row
         for (int col = bounds.xMin; col < bounds.xMax; col++)
         {
@@ -237,11 +297,22 @@ public class TetrisBoard : MonoBehaviour
         {
             for (int col = bounds.xMin; col < bounds.xMax; col++)
             {
-                Vector3Int position = new Vector3Int(col, row + 1, 0);
-                TileBase above = tilemap.GetTile(position);
+                if (activePiece.isLocked || !activePiece.IsInPosition(new Vector3Int(col, row, 0)))
+                {
+                    Vector3Int positionAbove = new Vector3Int(col, row + 1, 0);
+                    TileBase above = tilemap.GetTile(positionAbove);
+                    if (!activePiece.isLocked && activePiece.IsInPosition(positionAbove))
+                    {
+                        above = null;
+                    }
 
-                position = new Vector3Int(col, row, 0);
-                tilemap.SetTile(position, above);
+                    Vector3Int position = new Vector3Int(col, row, 0);
+                    tilemap.SetTile(position, above);
+                }
+                else
+                {
+                    int x = 0;
+                }
             }
 
             row++;

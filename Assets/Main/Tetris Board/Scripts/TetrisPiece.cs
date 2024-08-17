@@ -10,9 +10,11 @@ public class TetrisPiece : MonoBehaviour
     [SerializeField] private AudioSource impactSound;
 
     public float stepDelay = 1f;
+    public float stepDelaySubtractionPerLevel = 0.15f;
     public float moveDelay = 0.1f;
     public float lockDelay = 0.5f;
     public AudioClip[] impactAudio;
+    public bool isLocked = false;
 
     private float stepTime;
     private float moveTime;
@@ -131,14 +133,24 @@ public class TetrisPiece : MonoBehaviour
         Lock();
     }
 
-    private void Lock()
+    public void Lock(bool onlySet = false)
     {
-        board.Set(this);
-        impactSound.clip = impactAudio[Random.Range(0, impactAudio.Length)];
-        impactSound.Play();
+        isLocked = true;
+        if (onlySet)
+        {
+            board.Set(this);
+            board.SpawnPiece();
+        }
+        else
+        {
+            board.Set(this);
+            impactSound.clip = impactAudio[Random.Range(0, impactAudio.Length)];
+            impactSound.Play();
 
-        board.ClearLines();
-        board.SpawnPiece();
+            board.ClearLines();
+            board.SpawnPiece();
+        }
+        isLocked = false;
     }
 
     private bool Move(Vector2Int translation)
@@ -251,4 +263,42 @@ public class TetrisPiece : MonoBehaviour
         }
     }
 
+    public bool IsInPosition(Vector3Int targetPosition)
+    {
+        for (int j = 0; j < cells.Length; j++)
+        {
+            Vector3Int tilePosition = position + cells[j];
+            if (tilePosition.x == targetPosition.x && tilePosition.y == targetPosition.y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsInRow(int row)
+    {
+        for (int j = 0; j < cells.Length; j++)
+        {
+            Vector3Int tilePosition = position + cells[j];
+            if (tilePosition.y == row)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsInColumn(int column)
+    {
+        for (int j = 0; j < cells.Length; j++)
+        {
+            Vector3Int tilePosition = position + cells[j];
+            if (tilePosition.x == column)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
