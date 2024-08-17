@@ -310,10 +310,6 @@ public class TetrisBoard : MonoBehaviour
                     Vector3Int position = new Vector3Int(col, row, 0);
                     tilemap.SetTile(position, above);
                 }
-                else
-                {
-                    int x = 0;
-                }
             }
 
             row++;
