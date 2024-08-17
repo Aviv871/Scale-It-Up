@@ -200,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 39673507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 9, z: 0}
+  m_LocalPosition: {x: -9, y: 9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -861,7 +861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &485110446
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2437,7 +2437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1576716481
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2583,7 +2583,7 @@ Transform:
   m_GameObject: {fileID: 1797783590}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 9, z: 0}
+  m_LocalPosition: {x: -9, y: 9, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2775,7 +2775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b28103093bef944aaaddcb2ecf859e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: -9, y: 8, z: 0}
+  position: {x: -10, y: 8, z: 0}
 --- !u!1 &2016133564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2836,6 +2836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   peicePreview: {fileID: 1947882381}
+  gridSprite: {fileID: 393212595}
   lineCleardSound: {fileID: 1898238189}
   defetedSound: {fileID: 1490579868}
   tetrominoes:
@@ -2854,6 +2855,8 @@ MonoBehaviour:
   - tile: {fileID: 11400000, guid: 1830604cf329f39478e248b9983126fc, type: 2}
     tetromino: 6
   boardSize: {x: 10, y: 20}
+  boardSizeMaxX: 12
+  boardSizeMinX: 6
   spawnPosition: {x: -1, y: 8, z: 0}
   gameStarted: 0
 --- !u!114 &2016133568

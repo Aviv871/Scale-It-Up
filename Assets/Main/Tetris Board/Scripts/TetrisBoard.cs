@@ -8,10 +8,13 @@ public class TetrisBoard : MonoBehaviour
     public TetrisPiece activePiece { get; private set; }
 
     [SerializeField] private TetrisPeicePreview peicePreview;
+    [SerializeField] private SpriteRenderer gridSprite;
     [SerializeField] private AudioSource lineCleardSound;
     [SerializeField] private AudioSource defetedSound;
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+    public int boardSizeMaxX = 14;
+    public int boardSizeMinX = 6;
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
     public bool gameStarted = false;
 
@@ -50,6 +53,42 @@ public class TetrisBoard : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.C) && CanExpandBoard())
+        {
+            boardSize.x += 2;
+            gridSprite.size = new Vector2(gridSprite.size.x + 2, gridSprite.size.y);
+        }
+        else if (Input.GetKeyDown(KeyCode.Z) && CanSquzzeBoard())
+        {
+            boardSize.x -= 2;
+            gridSprite.size = new Vector2(gridSprite.size.x - 2, gridSprite.size.y);
+        }
+    }
+
+    private bool CanExpandBoard()
+    {
+        return boardSize.x < boardSizeMaxX;
+    }
+
+    private bool CanSquzzeBoard()
+    {
+        int lastColumn = boardSize.x / 2;
+        int firstColumn = -lastColumn;
+        lastColumn -= 1; // 0-indexed
+
+        for (int i = boardSize.y / 2; i >= -(boardSize.y / 2); i--)
+        {
+            if (tilemap.HasTile(new Vector3Int(lastColumn, i, 0)) || tilemap.HasTile(new Vector3Int(firstColumn, i, 0)))
+            {
+                return false;
+            }
+        }
+
+        return boardSize.x > boardSizeMinX;
     }
 
     private void chooseNextPeice(bool shouldUpdatePreview)
@@ -158,7 +197,8 @@ public class TetrisBoard : MonoBehaviour
             }
         }
 
-        if (linesCleared) {
+        if (linesCleared)
+        {
             lineCleardSound.Play();
         }
     }
