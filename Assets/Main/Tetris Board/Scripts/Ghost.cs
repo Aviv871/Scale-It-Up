@@ -19,6 +19,11 @@ public class TetrisGhost : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!mainBoard.gameStarted)
+        {
+            return;
+        }
+
         Clear();
         Copy();
         Drop();

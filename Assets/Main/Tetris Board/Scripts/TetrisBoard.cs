@@ -11,6 +11,7 @@ public class TetrisBoard : MonoBehaviour
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
+    public bool gameStarted = false;
 
     private TetrominoData nextPeiceData;
 
@@ -34,10 +35,11 @@ public class TetrisBoard : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void StartGame()
     {
         chooseNextPeice(false);
         SpawnPiece();
+        gameStarted = true;
     }
 
     private void Update()
@@ -48,18 +50,20 @@ public class TetrisBoard : MonoBehaviour
         }
     }
 
-    private void chooseNextPeice(bool shouldUpdatePreview) {
+    private void chooseNextPeice(bool shouldUpdatePreview)
+    {
         int random = Random.Range(0, tetrominoes.Length);
         nextPeiceData = tetrominoes[random];
 
-        if (shouldUpdatePreview) {
+        if (shouldUpdatePreview)
+        {
             peicePreview.UpdatePrivew(nextPeiceData);
         }
     }
 
     public void SpawnPiece()
     {
-        activePiece.Initialize(this, spawnPosition, nextPeiceData);
+        activePiece.Initialize(spawnPosition, nextPeiceData);
 
         if (IsValidPosition(activePiece, spawnPosition))
         {
@@ -73,7 +77,8 @@ public class TetrisBoard : MonoBehaviour
         chooseNextPeice(true);
     }
 
-    public void RestartGame() {
+    public void RestartGame()
+    {
         tilemap.ClearAllTiles();
         SpawnPiece();
     }

@@ -6,7 +6,7 @@ public class TetrisPeicePreview : MonoBehaviour
 {
     [SerializeField] private Vector3Int position;
 
-    private Tilemap tilemap;  
+    private Tilemap tilemap;
     private Vector3Int[] cells;
 
     private void Awake()

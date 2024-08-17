@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TetrisPiece : MonoBehaviour
 {
-    public TetrisBoard board { get; private set; }
+    [SerializeField] private TetrisBoard board;
     public TetrominoData data { get; private set; }
     public Vector3Int[] cells { get; private set; }
     public Vector3Int position { get; private set; }
@@ -23,10 +23,9 @@ public class TetrisPiece : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void Initialize(TetrisBoard board, Vector3Int position, TetrominoData data)
+    public void Initialize(Vector3Int position, TetrominoData data)
     {
         this.data = data;
-        this.board = board;
         this.position = position;
 
         rotationIndex = 0;
@@ -47,6 +46,11 @@ public class TetrisPiece : MonoBehaviour
 
     private void Update()
     {
+        if (!board.gameStarted)
+        {
+            return;
+        }
+
         board.Clear(this);
 
         // We use a timer to allow the player to make adjustments to the piece
