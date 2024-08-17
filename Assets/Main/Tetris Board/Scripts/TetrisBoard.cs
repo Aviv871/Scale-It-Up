@@ -9,6 +9,7 @@ public class TetrisBoard : MonoBehaviour
 
     [SerializeField] private TetrisPeicePreview peicePreview;
     [SerializeField] private AudioSource lineCleardSound;
+    [SerializeField] private AudioSource defetedSound;
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
@@ -86,6 +87,7 @@ public class TetrisBoard : MonoBehaviour
 
     public void GameOver()
     {
+        defetedSound.Play();
         tilemap.ClearAllTiles();
 
         // Do anything else you want on game over here..
