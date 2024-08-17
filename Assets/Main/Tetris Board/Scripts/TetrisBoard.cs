@@ -25,7 +25,8 @@ public class TetrisBoard : MonoBehaviour
         tilemap = GetComponentInChildren<Tilemap>();
         activePiece = GetComponentInChildren<TetrisPiece>();
 
-        for (int i = 0; i < tetrominoes.Length; i++) {
+        for (int i = 0; i < tetrominoes.Length; i++)
+        {
             tetrominoes[i].Initialize();
         }
     }
@@ -35,6 +36,14 @@ public class TetrisBoard : MonoBehaviour
         SpawnPiece();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     public void SpawnPiece()
     {
         int random = Random.Range(0, tetrominoes.Length);
@@ -42,11 +51,19 @@ public class TetrisBoard : MonoBehaviour
 
         activePiece.Initialize(this, spawnPosition, data);
 
-        if (IsValidPosition(activePiece, spawnPosition)) {
+        if (IsValidPosition(activePiece, spawnPosition))
+        {
             Set(activePiece);
-        } else {
+        }
+        else
+        {
             GameOver();
         }
+    }
+
+    public void RestartGame() {
+        tilemap.ClearAllTiles();
+        SpawnPiece();
     }
 
     public void GameOver()
@@ -84,12 +101,14 @@ public class TetrisBoard : MonoBehaviour
             Vector3Int tilePosition = piece.cells[i] + position;
 
             // An out of bounds tile is invalid
-            if (!bounds.Contains((Vector2Int)tilePosition)) {
+            if (!bounds.Contains((Vector2Int)tilePosition))
+            {
                 return false;
             }
 
             // A tile already occupies the position, thus invalid
-            if (tilemap.HasTile(tilePosition)) {
+            if (tilemap.HasTile(tilePosition))
+            {
                 return false;
             }
         }
@@ -107,9 +126,12 @@ public class TetrisBoard : MonoBehaviour
         {
             // Only advance to the next row if the current is not cleared
             // because the tiles above will fall down when a row is cleared
-            if (IsLineFull(row)) {
+            if (IsLineFull(row))
+            {
                 LineClear(row);
-            } else {
+            }
+            else
+            {
                 row++;
             }
         }
@@ -124,7 +146,8 @@ public class TetrisBoard : MonoBehaviour
             Vector3Int position = new Vector3Int(col, row, 0);
 
             // The line is not full if a tile is missing
-            if (!tilemap.HasTile(position)) {
+            if (!tilemap.HasTile(position))
+            {
                 return false;
             }
         }

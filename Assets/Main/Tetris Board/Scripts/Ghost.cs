@@ -36,7 +36,8 @@ public class TetrisGhost : MonoBehaviour
 
     private void Copy()
     {
-        for (int i = 0; i < cells.Length; i++) {
+        for (int i = 0; i < cells.Length; i++)
+        {
             cells[i] = trackingPiece.cells[i];
         }
     }
@@ -54,9 +55,12 @@ public class TetrisGhost : MonoBehaviour
         {
             position.y = row;
 
-            if (mainBoard.IsValidPosition(trackingPiece, position)) {
+            if (mainBoard.IsValidPosition(trackingPiece, position))
+            {
                 this.position = position;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
