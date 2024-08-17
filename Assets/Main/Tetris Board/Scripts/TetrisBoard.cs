@@ -13,6 +13,7 @@ public class TetrisBoard : MonoBehaviour
     [SerializeField] private SpriteRenderer gridSprite;
     [SerializeField] private AudioSource lineCleardSound;
     [SerializeField] private AudioSource defetedSound;
+    [SerializeField] private AudioSource sizeShiftSound;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI highestScoreText;
     public TetrominoData[] tetrominoes;
@@ -74,11 +75,13 @@ public class TetrisBoard : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && CanExpandBoard())
         {
+            sizeShiftSound.Play();
             boardSize.x += 2;
             gridSprite.size = new Vector2(gridSprite.size.x + 2, gridSprite.size.y);
         }
         else if (Input.GetKeyDown(KeyCode.Z) && CanSquzzeBoard())
         {
+            sizeShiftSound.Play();
             boardSize.x -= 2;
             gridSprite.size = new Vector2(gridSprite.size.x - 2, gridSprite.size.y);
             ClearLines();
