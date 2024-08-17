@@ -159,6 +159,7 @@ public class TetrisBoard : MonoBehaviour
     public void RestartGame()
     {
         tilemap.ClearAllTiles();
+        score = 0;
         SpawnPiece();
     }
 
@@ -166,7 +167,7 @@ public class TetrisBoard : MonoBehaviour
     {
         defetedSound.Play();
         tilemap.ClearAllTiles();
-
+        score = 0;
         // Do anything else you want on game over here..
     }
 
