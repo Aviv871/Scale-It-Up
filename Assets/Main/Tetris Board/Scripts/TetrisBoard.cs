@@ -8,6 +8,7 @@ public class TetrisBoard : MonoBehaviour
     public TetrisPiece activePiece { get; private set; }
 
     [SerializeField] private TetrisPeicePreview peicePreview;
+    [SerializeField] private AudioSource lineCleardSound;
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
@@ -137,6 +138,7 @@ public class TetrisBoard : MonoBehaviour
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
+        bool linesCleared = false;
 
         // Clear from bottom to top
         while (row < bounds.yMax)
@@ -146,11 +148,16 @@ public class TetrisBoard : MonoBehaviour
             if (IsLineFull(row))
             {
                 LineClear(row);
+                linesCleared = true;
             }
             else
             {
                 row++;
             }
+        }
+
+        if (linesCleared) {
+            lineCleardSound.Play();
         }
     }
 
