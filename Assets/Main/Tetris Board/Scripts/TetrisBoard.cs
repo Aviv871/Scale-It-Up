@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,6 +14,7 @@ public class TetrisBoard : MonoBehaviour
     [SerializeField] private AudioSource lineCleardSound;
     [SerializeField] private AudioSource defetedSound;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI highestScoreText;
     public TetrominoData[] tetrominoes;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public int boardSizeMaxX = 14;
@@ -41,6 +43,14 @@ public class TetrisBoard : MonoBehaviour
         for (int i = 0; i < tetrominoes.Length; i++)
         {
             tetrominoes[i].Initialize();
+        }
+    }
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("HighestScore"))
+        {
+            highestScoreText.text = "Highest Score: " + PlayerPrefs.GetInt("HighestScore");
         }
     }
 
@@ -156,19 +166,34 @@ public class TetrisBoard : MonoBehaviour
         chooseNextPeice(true);
     }
 
+    private void SetHighestScore()
+    {
+        int highestScore = 0;
+        if (PlayerPrefs.HasKey("HighestScore"))
+        {
+            highestScore = PlayerPrefs.GetInt("HighestScore");
+        }
+        
+        if (score > highestScore)
+        {
+            PlayerPrefs.SetInt("HighestScore", score);
+            highestScoreText.text = "Highest Score: " + score.ToString();
+        }
+    }
+
     public void RestartGame()
     {
         tilemap.ClearAllTiles();
+        SetHighestScore();
         score = 0;
+        scoreText.text = "Score: " + score.ToString();
         SpawnPiece();
     }
 
     public void GameOver()
     {
         defetedSound.Play();
-        tilemap.ClearAllTiles();
-        score = 0;
-        // Do anything else you want on game over here..
+        RestartGame();
     }
 
     public void Set(TetrisPiece piece)
@@ -254,7 +279,7 @@ public class TetrisBoard : MonoBehaviour
                     score += 1200 * level;
                     break;
             }
-            scoreText.text = score.ToString();
+            scoreText.text = "Score: " + score.ToString();
             AdvanceLevel();
         }
     }
