@@ -7,14 +7,20 @@ public class TetrisPiece : MonoBehaviour
     public Vector3Int[] cells { get; private set; }
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
+    public AudioSource audioSource { get; private set; }
 
     public float stepDelay = 1f;
     public float moveDelay = 0.1f;
     public float lockDelay = 0.5f;
+    public AudioClip[] impactAudio;
 
     private float stepTime;
     private float moveTime;
     private float lockTime;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void Initialize(TetrisBoard board, Vector3Int position, TetrominoData data)
     {
@@ -114,6 +120,9 @@ public class TetrisPiece : MonoBehaviour
     private void Lock()
     {
         board.Set(this);
+        audioSource.clip = impactAudio[Random.Range(0, impactAudio.Length)];
+        audioSource.Play();
+
         board.ClearLines();
         board.SpawnPiece();
     }
