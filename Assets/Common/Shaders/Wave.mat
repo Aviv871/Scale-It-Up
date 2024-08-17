@@ -43,7 +43,7 @@ Material:
     m_Floats:
     - _AnimateSpeed: 0.00125
     - _Fade: 0.125
-    - _GlowSize: 0.015
+    - _GlowSize: 0.0125
     - _Scale: 50
     m_Colors:
     - _GlowColor: {r: 10.324104, g: 13.397947, b: 16.94838, a: 1}
