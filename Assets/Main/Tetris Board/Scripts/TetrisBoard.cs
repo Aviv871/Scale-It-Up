@@ -115,26 +115,10 @@ public class TetrisBoard : MonoBehaviour
         int firstColumn = -lastColumn;
         lastColumn -= 1; // 0-indexed
 
-        // for (int i = boardSize.y / 2; i >= -(boardSize.y / 2); i--)
-        // {
-        //     if (tilemap.HasTile(new Vector3Int(lastColumn, i, 0)) || tilemap.HasTile(new Vector3Int(firstColumn, i, 0)))
-        //     {
-        //         return false;
-        //     }
-        // }
-        // for (int j = 0; j < activePiece.cells.Length; j++)
-        // {
-        //     Vector3Int tilePosition = activePiece.position + activePiece.cells[j];
-        //     if (tilePosition.x == lastColumn || tilePosition.x == firstColumn)
-        //     {
-        //         return false;
-        //     }
-        // }
         if (activePiece.IsInColumn(lastColumn) || activePiece.IsInColumn(firstColumn))
         {
             return false;
         }
-
 
         return boardSize.x > boardSizeMinX;
     }
@@ -173,7 +157,7 @@ public class TetrisBoard : MonoBehaviour
         {
             highestScore = PlayerPrefs.GetInt("HighestScore");
         }
-        
+
         if (score > highestScore)
         {
             PlayerPrefs.SetInt("HighestScore", score);
@@ -267,16 +251,16 @@ public class TetrisBoard : MonoBehaviour
             switch (linesCleared)
             {
                 case 1:
-                    score += 40 * level;
+                    score += 5 * boardSize.x * level;
                     break;
                 case 2:
-                    score += 100 * level;
+                    score += 13 * boardSize.x * level;
                     break;
                 case 3:
-                    score += 300 * level;
+                    score += 40 * boardSize.x * level;
                     break;
                 case 4:
-                    score += 1200 * level;
+                    score += 160 * boardSize.x * level;
                     break;
             }
             scoreText.text = "Score: " + score.ToString();
