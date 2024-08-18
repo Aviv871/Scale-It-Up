@@ -120,6 +120,7 @@ public class TetrisBoard : MonoBehaviour
 
         if (activePiece.IsInColumn(lastColumn) || activePiece.IsInColumn(firstColumn))
         {
+            // TODO: support pushing the active peice to the center if allowed
             return false;
         }
 
