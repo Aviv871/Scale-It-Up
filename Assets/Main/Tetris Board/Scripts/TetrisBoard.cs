@@ -75,13 +75,13 @@ public class TetrisBoard : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && CanExpandBoard())
         {
-            sizeShiftSound.Play();
+            // sizeShiftSound.Play();
             boardSize.x += 2;
             gridSprite.size = new Vector2(gridSprite.size.x + 2, gridSprite.size.y);
         }
         else if (Input.GetKeyDown(KeyCode.Z) && CanSquzzeBoard())
         {
-            sizeShiftSound.Play();
+            // sizeShiftSound.Play();
             boardSize.x -= 2;
             gridSprite.size = new Vector2(gridSprite.size.x - 2, gridSprite.size.y);
             ClearLines();
