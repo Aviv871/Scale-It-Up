@@ -1,11 +1,11 @@
 # Scale It Up
 My GMTK Game Jam 2024 (Theme: Build to Scale) entry :tada:  
-[itch.io entry page]()
+[itch.io entry page](https://aviv871games.itch.io/scale-it-up)
   
 ## Playing
 The classic puzzle game, but with a new dimension! 
 You can also control the size of the board. while playing, use it wisely!
-  
+
 ## Controls
 - A,S,D to move the peices
 - Q,E to rotate the peices
